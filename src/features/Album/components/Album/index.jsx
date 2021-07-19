@@ -12,7 +12,7 @@ function Album({ album }) {
       <div className='album__thumbnail'>
         <img src={album.thumbnailUrl} alt={album.name} />
       </div>
-      <p>{album.name}</p>
+      <p className='album__name'>{album.name}</p>
     </div>
   );
 }
