@@ -1,18 +1,14 @@
+import React from 'react';
+// import './App.css';
+import AlbumFeature from './features/Album';
 
-import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        
-        <p>
-          NGUYỄN TRỌNG DƯƠNG
-        </p>
-        
-      </header>
+     <AlbumFeature />
     </div>
   );
-}
+};
 
 export default App;
