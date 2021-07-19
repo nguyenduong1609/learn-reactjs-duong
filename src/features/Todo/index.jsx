@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TodoList from "./components/TodoList"
 
-
 function TodoFeature(props) {
   const initTodoList = [
     {
@@ -22,7 +21,8 @@ function TodoFeature(props) {
   ];
 
   const [todoList, setTodoList] = useState(initTodoList);
-
+  const [filteredStatus, setFilteredStatus] = useState('all')
+  
   const hanletodoClick = (todo,idx) =>{
     const newTodoList = [ ...todoList];
     newTodoList[idx] = {
@@ -30,13 +30,31 @@ function TodoFeature(props) {
       status: newTodoList[idx].status === 'new' ? 'completed' : 'new',
     };
     setTodoList(newTodoList);
-    // console.log(todo, idx);
-  }
+  };
+
+  const handleShowAllClick = () => {
+    setFilteredStatus('all');
+  };
+  const handleShowCompletedClick = () => {
+    setFilteredStatus('completed');
+  };
+  const handleShowNewClick = () => {
+    setFilteredStatus('new');
+  };
+
+  const renderedTodoList = todoList.filter(todo => filteredStatus==='all' || filteredStatus === todo.status);
+  console.log(renderedTodoList);
 
   return (
     <div>
       <h3>Todo List</h3>
-      <TodoList todoList = {todoList} onTodoClick={hanletodoClick} />
+      <TodoList todoList = {renderedTodoList} onTodoClick={hanletodoClick} />
+
+      <div>
+        <button onClick={handleShowAllClick}>Show All</button>
+        <button onClick={handleShowCompletedClick}>Show Completed</button>
+        <button onClick={handleShowNewClick}>Show New</button>
+      </div>
     </div>
   );
 }
