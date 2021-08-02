@@ -14,7 +14,7 @@ function App() {
         _limit: 10,
       };
       const productList = await productApi.getAll(params);
-      console.log(productList);
+      // console.log(productList);
     };
 
     fetchProducts();
@@ -32,7 +32,8 @@ function App() {
         <Redirect from='/home' to='/' exact />
         <Redirect from='/post-list/:postId' to='/post/:postId' exact />
 
-        <Route path='/todos' component={TodoFeature} />
+        <Route path='/' component={TodoFeature} />
+        <Route path='/todos' component={TodoFeature} exact />
         <Route path='/albums' component={AlbumFeature} />
         
         <Route component={NotFound} />
