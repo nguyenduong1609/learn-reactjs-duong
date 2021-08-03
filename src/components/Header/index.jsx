@@ -3,14 +3,13 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import CodeIcon from '@material-ui/icons/Code';
 import React, { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import Register from '../../features/Auth/components/Register';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header() {
+export default function Header(props) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -36,7 +35,9 @@ export default function Header() {
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (e, reason) => {
+    if (reason === 'backdropClick') return;
+    if (reason === 'escapeKeyDown') return;
     setOpen(false);
   };
 
@@ -48,15 +49,12 @@ export default function Header() {
 
           <Typography variant="h6" className={classes.title}>
             <Link className={classes.link} to="/">
-              {' '}
-              EZ SHOP{' '}
+              EZ SHOP
             </Link>
           </Typography>
 
           <NavLink className={classes.link} to="/todos">
-            <Button className="duong" color="inherit">
-              TODOS
-            </Button>
+            <Button color="inherit">TODOS</Button>
           </NavLink>
 
           <NavLink className={classes.link} to="/albums">
@@ -69,32 +67,17 @@ export default function Header() {
         </Toolbar>
       </AppBar>
 
-      <Dialog
-        disableBackdropClick
-        disableEscapeKeyDown
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogContent>
-          <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
-          </DialogContentText>
+          <Register />
         </DialogContent>
+
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
         </DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
       </Dialog>
-      <Button onClick={handleClose} color="primary">
-        Cancel
-      </Button>
     </div>
   );
 }

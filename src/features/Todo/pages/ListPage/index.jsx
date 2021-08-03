@@ -29,7 +29,7 @@ function ListPage(props) {
   const [todoList, setTodoList] = useState(initTodoList);
   const [filteredStatus, setFilteredStatus] = useState(() =>{
     const params = queryString.parse(location.search);
-    console.log(params);
+    // console.log(params);
     return params.status || 'all';
   });
 
