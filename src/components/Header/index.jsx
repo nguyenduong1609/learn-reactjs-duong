@@ -69,7 +69,7 @@ export default function Header(props) {
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogContent>
-          <Register />
+          <Register closeDialog={handleClose}/>
         </DialogContent>
 
         <DialogActions>
