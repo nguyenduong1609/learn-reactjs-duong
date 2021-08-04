@@ -7,28 +7,22 @@ import AlbumFeature from './features/Album';
 import CounterFeature from './features/Counter';
 import TodoFeature from './features/Todo';
 
-
-
 function App() {
-
   useEffect(() => {
     const fetchProducts = async () => {
       const params = {
         _limit: 10,
       };
       const productList = await productApi.getAll(params);
-      console.log(productList);
+      // console.log(productList);
     };
 
     fetchProducts();
-    
   }, []);
 
   return (
     <div className="App">
       <Header />
-
-      
       <Switch>
 
         <Redirect from='/home' to='/' exact />
@@ -39,9 +33,7 @@ function App() {
         <Route path='/albums' component={AlbumFeature} />
         
         <Route component={NotFound} />
-
       </Switch>
-      
     </div>
   );
 };

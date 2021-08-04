@@ -39,7 +39,6 @@ function RegisterForm(props) {
       .string()
       .required('Please enter your full name.')
       .test('should has at least two words', 'please enter at least two words.', (value) => {
-        console.log('value:', value);
         return value.split(' ').length >= 2;
       }),
     email: yup
