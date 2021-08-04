@@ -76,7 +76,7 @@ function ListPage(props) {
   const renderedTodoList = todoList.filter(todo => filteredStatus==='all' || filteredStatus === todo.status);
   
   const handleTodoFormSubmit = (values) => {
-    console.log('gia tri: ', values)
+    // console.log('gia tri: ', values)
     const newTodo = {
       id: todoList.length + 1,
       title: values.title,

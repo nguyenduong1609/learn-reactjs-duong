@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import InputField from '../../../../components/form-controls/InputField';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { Avatar, Button, makeStyles, Typography } from '@material-ui/core';
 import { LockOutlined } from '@material-ui/icons';
-import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import InputField from '../../../../components/form-controls/InputField';
+import PasswordField from '../../../../components/form-controls/PasswordField';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +35,25 @@ RegisterForm.propTypes = {
 function RegisterForm(props) {
   const classes = useStyles();
   const schema = yup.object().shape({
-    title: yup.string().required('Please enter title').min(5, 'Title is too short'),
+    fullName: yup
+      .string()
+      .required('Please enter your full name.')
+      .test('should has at least two words', 'please enter at least two words.', (value) => {
+        console.log('value:', value);
+        return value.split(' ').length >= 2;
+      }),
+    email: yup
+      .string()
+      .required('Please enter your email.')
+      .email('Please enter a valid email address.'),
+    password: yup
+      .string()
+      .required('Please enter your password')
+      .min(6, 'Please enter at least 6 characters.'),
+    retypePassword: yup
+      .string()
+      .required('Please retype your password')
+      .oneOf([yup.ref('password')], 'Password does not match.'),
   });
   const form = useForm({
     defaultValues: {
@@ -48,7 +66,6 @@ function RegisterForm(props) {
   });
 
   const handleSubmit = (values) => {
-    console.log('TODO FORM: ', values);
     const { onSubmit } = props;
     if (onSubmit) {
       onSubmit(values);
@@ -68,9 +85,15 @@ function RegisterForm(props) {
       <form onSubmit={form.handleSubmit(handleSubmit)}>
         <InputField name="fullName" label="Full Name" form={form} />
         <InputField name="email" label="Email" form={form} />
-        <InputField name="password" label="Password" form={form} />
-        <InputField name="retypePassword" label="Retype Password" form={form} />
-        <Button className={classes.submit} variant="contained" color="primary" fullWidth>
+        <PasswordField name="password" label="Password" form={form} />
+        <PasswordField name="retypePassword" label="Retype Password" form={form} />
+        <Button
+          type="submit"
+          className={classes.submit}
+          variant="contained"
+          color="primary"
+          fullWidth
+        >
           Create an account
         </Button>
       </form>
