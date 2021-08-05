@@ -6,9 +6,10 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Close } from '@material-ui/icons';
+import { AccountCircle, Close } from '@material-ui/icons';
 import CodeIcon from '@material-ui/icons/Code';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import Login from '../../features/Auth/components/Login';
 import Register from '../../features/Auth/components/Register';
@@ -42,6 +43,8 @@ const MODE = {
 };
 
 export default function Header(props) {
+  const loggedInUser = useSelector((state) => state.user.current);
+  const isLoggedIn = !!loggedInUser.id;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
 
@@ -76,9 +79,17 @@ export default function Header(props) {
             <Button color="inherit">ALBUMS</Button>
           </NavLink>
 
-          <Button color="inherit" onClick={handleClickOpen}>
-            REGISTER
-          </Button>
+          {!isLoggedIn && (
+            <Button color="inherit" onClick={handleClickOpen}>
+              Login
+            </Button>
+          )}
+
+          {isLoggedIn && (
+            <Button color="inherit" onClick={handleClickOpen}>
+              <AccountCircle />
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
 
