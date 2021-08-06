@@ -1,5 +1,3 @@
-import { Button } from '@material-ui/core';
-import { useSnackbar } from 'notistack';
 import React, { useEffect } from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import productApi from './api/productApi';
@@ -7,6 +5,7 @@ import Header from './components/Header';
 import NotFound from './components/NotFound';
 import AlbumFeature from './features/Album';
 import CounterFeature from './features/Counter';
+import ProductFeature from './features/Product';
 import TodoFeature from './features/Todo';
 
 function App() {
@@ -22,16 +21,10 @@ function App() {
     fetchProducts();
   }, []);
 
-  const { enqueueSnackbar } = useSnackbar();
-  const showNoti = () => {
-    // variant could be success, error, warning, info, or default
-    enqueueSnackbar('Register success', { variant: 'success' });
-  };
-
   return (
     <div className="App">
       <Header />
-      <Button onClick={showNoti}>show noti</Button>
+      
       <Switch>
         <Redirect from="/home" to="/" exact />
         <Redirect from="/post-list/:postId" to="/post/:postId" exact />
@@ -39,6 +32,7 @@ function App() {
         <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} exact />
         <Route path="/albums" component={AlbumFeature} />
+        <Route path="/products" component={ProductFeature} />
 
         <Route component={NotFound} />
       </Switch>
