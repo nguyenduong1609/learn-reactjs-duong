@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import { useState } from 'react';
 import { useEffect } from 'react';
 import categoryApi from '../../../../api/categoryApi';
+import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   root: {
