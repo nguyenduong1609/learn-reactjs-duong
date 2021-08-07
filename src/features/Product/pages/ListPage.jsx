@@ -2,6 +2,7 @@ import { Box, Container, Grid, makeStyles, Paper } from '@material-ui/core';
 import { Pagination } from '@material-ui/lab';
 import React, { useEffect, useState } from 'react';
 import productApi from '../../../api/productApi';
+import FilterViewer from '../components/FilterViewer';
 import ProductFilters from '../components/ProductFilters';
 import ProductList from '../components/ProductList';
 import ProductSkeletonList from '../components/ProductSkeletonList';
@@ -32,7 +33,7 @@ function ListPage(props) {
     total: 10,
   });
   const [loading, setLoading] = useState(true);
-  const [filters, setFilter] = useState({
+  const [filters, setFilters] = useState({
     _page: 1,
     _limit: 9,
     _sort: 'salePrice:ASC',
@@ -54,24 +55,28 @@ function ListPage(props) {
   }, [filters]);
 
   const handlePageChange = (e, page) => {
-    setFilter((x) => ({
+    setFilters((x) => ({
       ...x,
       _page: page,
     }));
   };
   const handleSortChange = (newSortValue) => {
-    setFilter((x) => ({
+    setFilters((x) => ({
       ...x,
       _sort: newSortValue,
     }));
   };
   const handleFiltersChange = (newFilters) => {
-    setFilter((x) => ({
+    setFilters((x) => ({
       ...x,
       ...newFilters,
     }));
   };
   // console.log('product list', productList);
+
+  const setNewFilters = (newFilters) => {
+    setFilters(newFilters);
+  };
 
   return (
     <Box>
@@ -85,6 +90,8 @@ function ListPage(props) {
           <Grid item className={classes.right}>
             <Paper elevation={0}>
               <ProductSort currentSort={filters._sort} onChange={handleSortChange} />
+              <FilterViewer filters={filters} onChange={setNewFilters} />
+
               {loading ? <ProductSkeletonList length={9} /> : <ProductList data={productList} />}
               <Box className={classes.pagination}>
                 <Pagination
