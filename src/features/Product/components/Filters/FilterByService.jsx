@@ -1,7 +1,6 @@
 import { Box, Checkbox, FormControlLabel, makeStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { boolean } from 'yup';
 
 const useStyles = makeStyles((theme) => ({
   root: {
