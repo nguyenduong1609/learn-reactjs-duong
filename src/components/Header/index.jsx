@@ -89,6 +89,10 @@ export default function Header(props) {
             </Link>
           </Typography>
 
+          <NavLink className={classes.link} to="/products">
+            <Button color="inherit">PRODUCTS</Button>
+          </NavLink>
+
           <NavLink className={classes.link} to="/todos">
             <Button color="inherit">TODOS</Button>
           </NavLink>
