@@ -1,4 +1,4 @@
-import { Box, IconButton, MenuItem } from '@material-ui/core';
+import { Badge, Box, IconButton, MenuItem } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
@@ -7,14 +7,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { AccountCircle, Close } from '@material-ui/icons';
+import { AccountCircle, Close, ShoppingCart } from '@material-ui/icons';
 import CodeIcon from '@material-ui/icons/Code';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useHistory } from 'react-router-dom';
 import Login from '../../features/Auth/components/Login';
 import Register from '../../features/Auth/components/Register';
 import { logout } from '../../features/Auth/userSlice';
+import { cartItemsCountSelector } from '../../features/Cart/selectors';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,6 +48,7 @@ const MODE = {
 export default function Header(props) {
   const dispatch = useDispatch();
   const loggedInUser = useSelector((state) => state.user.current);
+  const cartItemsCount = useSelector(cartItemsCountSelector);
   const isLoggedIn = !!loggedInUser.id;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
@@ -76,6 +78,10 @@ export default function Header(props) {
     const action = logout();
     dispatch(action);
   };
+  const history = useHistory();
+  const handleCartClick = () => {
+    history.push('/cart')
+  };
 
   return (
     <div className={classes.root}>
@@ -100,6 +106,12 @@ export default function Header(props) {
           <NavLink className={classes.link} to="/albums">
             <Button color="inherit">ALBUMS</Button>
           </NavLink>
+
+          <IconButton aria-label="show 4 new mails" color="inherit" onClick={handleCartClick}>
+            <Badge badgeContent={cartItemsCount} color="secondary">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
 
           {!isLoggedIn && (
             <Button color="inherit" onClick={handleClickOpen}>
