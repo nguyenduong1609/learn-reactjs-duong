@@ -2,6 +2,7 @@ import { Box, Button, Container, Grid, makeStyles, Paper, Typography } from '@ma
 import { Delete } from '@material-ui/icons';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { STATIC_HOST, THUMBNAIL_PLACEHOLDER } from '../../constants';
 import { formatPrice } from '../../utils';
 import { removeFromCart } from './cartSlice';
@@ -16,20 +17,62 @@ const useStyles = makeStyles((theme) => ({
     height: '150px',
     padding: theme.spacing(1.5),
     borderRight: `1px solid ${theme.palette.grey[300]}`,
+    '&:hover': {
+      // color: theme.palette.primary.dark,
+      cursor: 'pointer',
+    },
   },
   name: {
     width: '150px',
     fontSize: theme.typography.h5.fontSize,
     fontWeight: 'bold',
     padding: theme.spacing(1.5),
+    '&:hover': {
+      color: theme.palette.primary.dark,
+      cursor: 'pointer',
+    },
   },
   right: {
-    flex: '1 1 0',
+    // flex: '1 1 0',
+    width: '220px',
     padding: theme.spacing(1.5),
   },
   originalPrice: {
     marginRight: theme.spacing(2),
     textDecoration: 'line-through',
+  },
+  quantity: {
+    flex: '1 1 0',
+  },
+  delete: {
+    marginRight: theme.spacing(2),
+    cursor: 'pointer',
+  },
+  delete: {
+    marginRight: theme.spacing(2),
+    // cursor: 'pointer',
+    '&:hover': {
+      color: theme.palette.primary.dark,
+      cursor: 'pointer',
+    },
+  },
+  buy: {
+    alignItems: 'center',
+    display: 'flex',
+    // height: '50px',
+    padding: theme.spacing(1.5),
+    // borderRight: `1px solid ${theme.palette.grey[300]}`,
+  },
+  totalmoney: {
+    alignItems: 'center',
+    width: '350px',
+    // height: '150px',
+    // padding: theme.spacing(1.5),
+    // borderRight: `1px solid ${theme.palette.grey[300]}`,
+  },
+  buttonmoney: {
+    // flex: '1 1 0',
+    padding: theme.spacing(1.5),
   },
 }));
 
@@ -48,13 +91,18 @@ function CartFeature(props) {
     dispatch(action);
   };
 
+  const history = useHistory();
+  const handleCartClick = (id) => {
+    history.push(`/products/${id}`);
+  };
+
   return (
     <Container>
       {render.map((x, index) => (
         <Box padding={1} key={index}>
           <Paper elevation={0}>
             <Grid container className={classes.root}>
-              <Grid item className={classes.left}>
+              <Grid item className={classes.left} onClick={() => handleCartClick(x.id)}>
                 <Box padding={1} minHeight={100}>
                   <img
                     src={
@@ -68,7 +116,7 @@ function CartFeature(props) {
                 </Box>
               </Grid>
 
-              <Grid item className={classes.name}>
+              <Grid item className={classes.name} onClick={() => handleCartClick(x.id)}>
                 <Typography variant="h6"> {x.product.category.name}</Typography>
               </Grid>
 
@@ -89,11 +137,14 @@ function CartFeature(props) {
                   )}
                 </Typography>
               </Grid>
-              <Grid item className={classes.name}>
-                <Typography variant="body2">Số Lượng: {x.quantity}</Typography>
+              <Grid item className={classes.quantity}>
+                <Box component="span" fontSize="16px" fontWeight="bold" mr={2}>
+                  Số Lượng: {x.quantity}
+                </Box>
+                {/* <Typography variant="body2">Số Lượng: {x.quantity}</Typography> */}
               </Grid>
 
-              <Grid item className={classes.name}>
+              <Grid item className={classes.delete}>
                 <Delete onClick={() => handleDelete(x.id)} />
               </Grid>
             </Grid>
@@ -101,12 +152,12 @@ function CartFeature(props) {
         </Box>
       ))}
 
-      <Grid padding={1}>
-        <Grid>
-          <Typography variant="body2">Số tiền bạn cần thanh toán: {formatPrice(cartTotal)}</Typography>
+      <Grid padding={1} className={classes.buy}>
+        <Grid className={classes.totalmoney}>
+          <Typography variant="h6">Số tiền bạn cần thanh toán: {formatPrice(cartTotal)}</Typography>
         </Grid>
 
-        <Grid>
+        <Grid className={classes.buttonmoney}>
           <Button
             type="submit"
             // className={classes.submit}
