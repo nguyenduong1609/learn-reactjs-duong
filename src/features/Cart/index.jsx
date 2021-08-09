@@ -1,4 +1,4 @@
-import { Box, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
+import { Box, Button, Container, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -90,7 +90,7 @@ function CartFeature(props) {
                 </Typography>
               </Grid>
               <Grid item className={classes.name}>
-                <Typography variant="h6">Số Lượng: {x.quantity}</Typography>
+                <Typography variant="body2">Số Lượng: {x.quantity}</Typography>
               </Grid>
 
               <Grid item className={classes.name}>
@@ -100,7 +100,26 @@ function CartFeature(props) {
           </Paper>
         </Box>
       ))}
-      <h4>Số tiền bạn cần thanh toán: {formatPrice(cartTotal)}</h4>
+
+      <Grid padding={1}>
+        <Grid>
+          <Typography variant="body2">Số tiền bạn cần thanh toán: {formatPrice(cartTotal)}</Typography>
+        </Grid>
+
+        <Grid>
+          <Button
+            type="submit"
+            // className={classes.submit}
+            variant="contained"
+            color="primary"
+            fullWidth
+            style={{ width: '200px' }}
+            size="medium"
+          >
+            Thanh Toán
+          </Button>
+        </Grid>
+      </Grid>
     </Container>
   );
 }
